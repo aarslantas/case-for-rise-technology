@@ -1,0 +1,12 @@
+.App {
+  padding: 3rem;
+  text-align: center;
+}
+
+header {
+  font-size: 30px;
+  font-weight: bold;
+  color: #0303b3;
+  border-bottom: 1px solid #ddd;
+  text-align: left;
+}
