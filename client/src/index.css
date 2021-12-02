@@ -2,3 +2,12 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  .input {
+    @apply p-2 border-2 border-gray-500 outline-none rounded-md h-12;
+  }
+  .btn {
+    @apply w-10 h-10 bg-gray-200 flex justify-center items-center rounded-md hover:bg-gray-300;
+  }
+}

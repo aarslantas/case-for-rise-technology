@@ -7,11 +7,14 @@ module.exports = {
         // Complex site-specific column configuration
         form: "60% 1fr auto",
         search: "60% 1fr",
-        list: "55% 1fr 1fr",
+        list: "55% 35% 1fr",
       },
       fontFamily: {
-        sans: ["Roboto", "sans-serif"],
+        body: ["Roboto"],
       },
+    },
+    minHeight: {
+      12: "12rem",
     },
   },
   variants: {
