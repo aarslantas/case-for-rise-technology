@@ -1,9 +1,35 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
+import {
+  sortFromUrgentToTrival,
+  sortFromTrivalToUrgent,
+} from "../../helper/sorting";
 import JobsContext from "../../store/JobsContext";
 import JobItem from "./JobItem";
 
-const JobList = ({ priorities }) => {
+const JobList = () => {
   const jobsCtx = useContext(JobsContext);
+  const [priorityState, setPriorityState] = useState("fromUrgentToTrival");
+
+  let jobs = [...jobsCtx.jobs];
+
+  const sortingHandler = (e) => {
+    jobsCtx.setIsSelected(true);
+    if (e.target.value == 0) {
+      jobs = sortFromUrgentToTrival(jobs);
+      setPriorityState("fromUrgentToTrival");
+      jobsCtx.setAllJobs(jobs);
+    } else {
+      jobs = sortFromTrivalToUrgent(jobs);
+      setPriorityState("fromTrivalToUrgent");
+      jobsCtx.setAllJobs(jobs);
+    }
+  };
+
+  if (!jobsCtx.isSelected) {
+    if (priorityState === "fromUrgentToTrival")
+      jobs = sortFromUrgentToTrival(jobs);
+    else jobs = sortFromTrivalToUrgent(jobs);
+  }
 
   return (
     <>
@@ -37,12 +63,9 @@ const JobList = ({ priorities }) => {
             />
           </div>
 
-          <select name="priority" className="input">
-            {priorities.map((priority, i) => (
-              <option key={i} value={priority}>
-                {priority}
-              </option>
-            ))}
+          <select name="priority" className="input" onChange={sortingHandler}>
+            <option value="0"> Urgent - Trivial</option>
+            <option value="1"> Trivial - Urgent</option>
           </select>
         </div>
         <div className="grid grid-cols-list justify-items-start px-4 py-2 bg-blue-200 font-bold">
@@ -51,8 +74,7 @@ const JobList = ({ priorities }) => {
           <span>Action</span>
         </div>
         <div className="min-h-12 bg-gray-200">
-          {jobsCtx.jobs.map((job, i) => {
-            console.log(job, i);
+          {jobs.map((job, i) => {
             return <JobItem key={i} index={i} job={job} />;
           })}
         </div>

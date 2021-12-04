@@ -1,4 +1,5 @@
 import { useContext, useRef } from "react";
+import { useFormik } from "formik";
 import JobsContext from "../../store/JobsContext";
 
 const NewJob = ({ priorities }) => {
@@ -7,36 +8,60 @@ const NewJob = ({ priorities }) => {
   const jobNameRef = useRef();
   const priorityRef = useRef();
 
-  const submitHandler = (e) => {
-    e.preventDefault();
+  const submitHandler = () => {
+    const [priorityName, priorityNumber] = priorityRef.current.value.split("-");
+    jobsCtx.setIsSelected(false);
     const newJob = {
       jobName: jobNameRef.current.value,
-      priority: priorityRef.current.value,
+      priorityName,
+      priorityNumber,
     };
-
     jobsCtx.setJob(newJob);
+
+    jobNameRef.current.value = "";
   };
 
+  const formik = useFormik({
+    onSubmit: submitHandler,
+    initialValues: {
+      jobName: "",
+    },
+    validate: (values) => {
+      let errors = {};
+      if (!values.jobName) {
+        errors.jobName = "Lütfen boş bırakmayınız";
+      } else if (!values.jobName.match(/^[-_ a-zA-Z0-9ğüşöçİĞÜŞÖÇ]+$/)) {
+        errors.jobName = "geçerli bir değer girin";
+      }
+      return errors;
+    },
+  });
+
   return (
-    <div className="py-4 mb-10">
+    <div className="py-4 mb-1">
       <h2 className="block text-lg text-left mb-2 font-bold">Create New Job</h2>
       <form
-        className="grid grid-cols-form gap-4 items-end"
-        onSubmit={submitHandler}
+        className="grid grid-cols-form gap-4 items-center  h-36"
+        onSubmit={formik.handleSubmit}
       >
-        <div className="flex flex-col">
-          <label htmlFor="jobname" className="self-start text-gray-600 mb-1">
+        <div className="flex flex-col justify-between relative h-20">
+          <label htmlFor="jobname" className="absolute text-gray-600 -top-7">
             Job Name
           </label>
           <input
             type="text"
-            name="jobname"
+            name="jobName"
             className="input"
             ref={jobNameRef}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
           />
+          {formik.errors.jobName ? (
+            <p className="text-red-600">{formik.errors.jobName}</p>
+          ) : null}
         </div>
-        <div className="flex flex-col">
-          <label htmlFor="priority" className="self-start text-gray-600 mb-1">
+        <div className="flex flex-col relative h-20">
+          <label htmlFor="priority" className="absolute text-gray-600 -top-7">
             Job Priority
           </label>
           <select
@@ -46,18 +71,26 @@ const NewJob = ({ priorities }) => {
             ref={priorityRef}
           >
             {priorities.map((priority, i) => (
-              <option key={i} value={priority}>
-                {priority}
+              <option
+                key={i}
+                value={priority.priorityName.concat(
+                  "-",
+                  priority.priorityNumber
+                )}
+              >
+                {priority.priorityName}
               </option>
             ))}
           </select>
         </div>
-        <button
-          type="submit"
-          className="text-white bg-blue-500 px-6 rounded-md h-12"
-        >
-          Create
-        </button>
+        <div className="h-20">
+          <button
+            type="submit"
+            className="text-white bg-blue-500 px-6 rounded-md h-12"
+          >
+            Create
+          </button>
+        </div>
       </form>
     </div>
   );

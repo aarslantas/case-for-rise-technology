@@ -1,7 +1,7 @@
 import Priority from "./Priority";
 
 const JobItem = ({ job, index }) => {
-  const { jobName, priority } = job;
+  const { jobName, priorityName } = job;
   let bgClass = index % 2 ? "bg-gray-100" : "bg-white";
 
   const classes = "grid grid-cols-list px-4 py-3 items-center";
@@ -10,7 +10,7 @@ const JobItem = ({ job, index }) => {
   return (
     <div className={newClasses}>
       <p>{jobName}</p>
-      <Priority name={priority} />
+      <Priority priorityName={priorityName} />
       <div className="flex space-x-3">
         <button className="btn">
           <svg
