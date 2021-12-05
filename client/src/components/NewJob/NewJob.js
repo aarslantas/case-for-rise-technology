@@ -1,3 +1,4 @@
+import * as yup from "yup";
 import { useContext, useRef } from "react";
 import { useFormik } from "formik";
 import JobsContext from "../../store/JobsContext";
@@ -5,36 +6,44 @@ import JobsContext from "../../store/JobsContext";
 const NewJob = ({ priorities }) => {
   const jobsCtx = useContext(JobsContext);
 
-  const jobNameRef = useRef();
   const priorityRef = useRef();
 
-  const submitHandler = () => {
+  const submitHandler = (values) => {
     const [priorityName, priorityNumber] = priorityRef.current.value.split("-");
     jobsCtx.setIsSelected(false);
+
     const newJob = {
-      jobName: jobNameRef.current.value,
+      jobName: values.jobName,
       priorityName,
       priorityNumber,
     };
-    jobsCtx.setJob(newJob);
+    // if (jobsCtx.filteredJobs.length > 0) {
+    //   jobsCtx.setFilteredJobs(newJob);
+    //   jobsCtx.setJob(newJob);
+    // } else {
+    //   jobsCtx.setJob(newJob);
+    // }
 
-    jobNameRef.current.value = "";
+    jobsCtx.setJob(newJob);
   };
+
+  const validationSchema = yup.object({
+    jobName: yup
+      .string()
+      .trim()
+      .required("Lütfen boş bırakmayınız")
+      .matches(
+        /^[-_ a-zA-Z0-9ğüşöçİĞÜŞÖÇ]+$/,
+        "Lütfen geçerli bir değer giriniz"
+      ),
+  });
 
   const formik = useFormik({
     onSubmit: submitHandler,
     initialValues: {
       jobName: "",
     },
-    validate: (values) => {
-      let errors = {};
-      if (!values.jobName) {
-        errors.jobName = "Lütfen boş bırakmayınız";
-      } else if (!values.jobName.match(/^[-_ a-zA-Z0-9ğüşöçİĞÜŞÖÇ]+$/)) {
-        errors.jobName = "geçerli bir değer girin";
-      }
-      return errors;
-    },
+    validationSchema,
   });
 
   return (
@@ -52,7 +61,7 @@ const NewJob = ({ priorities }) => {
             type="text"
             name="jobName"
             className="input"
-            ref={jobNameRef}
+            value={formik.values.jobName}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
           />

@@ -1,11 +1,11 @@
 import { useReducer } from "react";
-import { sortFromUrgentToTrival } from "../helper/sorting";
 import JobsContext from "./JobsContext";
 
 const initialJobsState = {
   jobs: [],
+  filteredJobs: [],
   isSelected: false,
-  priorityState: "fromUrgentToTrival",
+  lastJobs: [],
 };
 
 const jobsReducer = (state, action) => {
@@ -13,12 +13,23 @@ const jobsReducer = (state, action) => {
     const newJobs = state.jobs.concat(action.job);
     return { ...state, jobs: newJobs };
   }
+  if (action.type === "SETJOBTOFILTEREDJOBS") {
+    const newJobs = state.jobs.concat(action.job);
+    return { ...state, filteredJobs: newJobs };
+  }
   if (action.type === "SETALLJOBS") {
     return { ...state, jobs: action.jobs };
   }
 
   if (action.type === "SETISSELECTED") {
     return { ...state, isSelected: action.value };
+  }
+
+  if (action.type === "SETFILTEREDJOBS") {
+    return { ...state, filteredJobs: action.filteredJobs };
+  }
+  if (action.type === "SETLASTJOBS") {
+    return { ...state, lastJobs: action.lastJobs };
   }
 
   return state;
@@ -34,19 +45,34 @@ const JobsProvider = ({ children }) => {
     dispacthJobsState({ type: "SETJOB", job });
   };
 
+  const setJobToFilteredJobs = (job) => {
+    dispacthJobsState({ type: "SETJOBTOFILTEREDJOBS", job });
+  };
+
   const setAllJobs = (jobs) => {
     dispacthJobsState({ type: "SETALLJOBS", jobs });
   };
   const setIsSelected = (value) => {
     dispacthJobsState({ type: "SETISSELECTED", value });
   };
+  const setFilteredJobs = (jobs) => {
+    dispacthJobsState({ type: "SETFILTEREDJOBS", filteredJobs: jobs });
+  };
+  const setLastJobs = (jobs) => {
+    dispacthJobsState({ type: "SETLASTJOBS", lastJobs: jobs });
+  };
 
   const jobsContext = {
     jobs: jobsState.jobs,
     isSelected: jobsState.isSelected,
+    filteredJobs: jobsState.filteredJobs,
+    lastJobs: jobsState.lastJobs,
     setJob,
+    setJobToFilteredJobs,
     setAllJobs,
     setIsSelected,
+    setFilteredJobs,
+    setLastJobs,
   };
 
   return (

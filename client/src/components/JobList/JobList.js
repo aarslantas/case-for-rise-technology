@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import {
   sortFromUrgentToTrival,
   sortFromTrivalToUrgent,
@@ -9,26 +9,50 @@ import JobItem from "./JobItem";
 const JobList = () => {
   const jobsCtx = useContext(JobsContext);
   const [priorityState, setPriorityState] = useState("fromUrgentToTrival");
+  const [isFiltered, setIsfiltered] = useState(false);
 
   let jobs = [...jobsCtx.jobs];
+  let filteredJobs = [...jobsCtx.filteredJobs];
+
+  if (jobsCtx.filteredJobs.length === 0 && !isFiltered) {
+    filteredJobs = [...jobsCtx.jobs];
+  }
+
+  console.log(filteredJobs);
+  if (jobs.length !== filteredJobs.length && !isFiltered) {
+    filteredJobs = [...jobsCtx.jobs];
+  }
 
   const sortingHandler = (e) => {
     jobsCtx.setIsSelected(true);
     if (e.target.value == 0) {
-      jobs = sortFromUrgentToTrival(jobs);
+      filteredJobs = sortFromUrgentToTrival(filteredJobs);
+
       setPriorityState("fromUrgentToTrival");
-      jobsCtx.setAllJobs(jobs);
+      jobsCtx.setFilteredJobs(filteredJobs);
     } else {
-      jobs = sortFromTrivalToUrgent(jobs);
+      filteredJobs = sortFromTrivalToUrgent(filteredJobs);
+      console.log(filteredJobs);
       setPriorityState("fromTrivalToUrgent");
-      jobsCtx.setAllJobs(jobs);
+      jobsCtx.setFilteredJobs(filteredJobs);
     }
+  };
+
+  const changeHandler = (e) => {
+    const searchValue = e.target.value;
+    setIsfiltered(true);
+    filteredJobs = jobs.filter((job) => job.jobName.startsWith(searchValue));
+
+    console.log(filteredJobs);
+    jobsCtx.setFilteredJobs(filteredJobs);
+
+    if (!searchValue) setIsfiltered(false);
   };
 
   if (!jobsCtx.isSelected) {
     if (priorityState === "fromUrgentToTrival")
-      jobs = sortFromUrgentToTrival(jobs);
-    else jobs = sortFromTrivalToUrgent(jobs);
+      filteredJobs = sortFromUrgentToTrival(filteredJobs);
+    else filteredJobs = sortFromTrivalToUrgent(filteredJobs);
   }
 
   return (
@@ -57,9 +81,10 @@ const JobList = () => {
 
             <input
               type="text"
-              name="jobname"
+              name="jobName"
               placeholder="Job Name"
               className="w-full input pl-8"
+              onChange={changeHandler}
             />
           </div>
 
@@ -74,7 +99,7 @@ const JobList = () => {
           <span>Action</span>
         </div>
         <div className="min-h-12 bg-gray-200">
-          {jobs.map((job, i) => {
+          {filteredJobs.map((job, i) => {
             return <JobItem key={i} index={i} job={job} />;
           })}
         </div>
