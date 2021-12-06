@@ -8,7 +8,7 @@ const Priority = ({ priorityName }) => {
     style = "bg-blue-600";
   }
   const classes =
-    "w-20 h-8 leading-8 text-sm text-center rounded-md text-white";
+    "w-14 sm:w-20 h-8 leading-8 text-sm text-center rounded-md text-white";
   const newClasses = classes.concat(" " + style);
   return <span className={newClasses}>{priorityName}</span>;
 };

@@ -13,7 +13,7 @@ const JobDelete = () => {
     jobsCtx.showDeleteModalFunc(!jobsCtx.showDeleteModal);
   };
   return (
-    <div className=" py-2 flex justify-center">
+    <div className=" py-2 flex justify-center ">
       <div className="w-3/4 flex flex-col items-center">
         <svg
           xmlns="http://www.w3.org/2000/svg"

@@ -32,7 +32,7 @@ const NewJob = ({ priorities }) => {
       .trim()
       .required("Lütfen boş bırakmayınız")
       .matches(
-        /^[-_ a-zA-Z0-9ğüşöçİĞÜŞÖÇ]+$/,
+        /^[-_ a-zA-Z0-9ğüşöçıİĞÜŞÖÇ]+$/,
         "Lütfen geçerli bir değer giriniz"
       ),
   });
@@ -46,13 +46,15 @@ const NewJob = ({ priorities }) => {
   });
 
   return (
-    <div className="py-4 mb-2 ">
-      <h2 className="block text-lg text-left mb-2 font-bold">Create New Job</h2>
+    <div>
+      <h2 className="mb-10 block text-lg text-left sm:mb-4 font-bold ">
+        Create New Job
+      </h2>
       <form
-        className="grid grid-cols-form gap-4 items-center  h-36"
+        className="mb-8 grid gap-0  grid-rows-2 items-center sm:gap-4 sm:grid-cols-form sm:grid-rows-1 sm:h-28"
         onSubmit={formik.handleSubmit}
       >
-        <div className="flex flex-col justify-between relative h-20">
+        <div className="mb-4  h-16 flex flex-col justify-between relative sm:h-20 sm:mb-0">
           <label htmlFor="jobname" className="absolute text-gray-600 -top-7">
             Job Name
           </label>
@@ -65,10 +67,12 @@ const NewJob = ({ priorities }) => {
             onBlur={formik.handleBlur}
           />
           {formik.errors.jobName ? (
-            <p className="text-red-600">{formik.errors.jobName}</p>
+            <p className="text-xs sm:text-base text-red-600 absolute bottom-0">
+              {formik.errors.jobName}
+            </p>
           ) : null}
         </div>
-        <div className="flex flex-col relative h-20">
+        <div className="mt-2 h-16 flex flex-col relative sm:h-20 sm:mt-0">
           <label htmlFor="priority" className="absolute text-gray-600 -top-7">
             Job Priority
           </label>
@@ -91,10 +95,10 @@ const NewJob = ({ priorities }) => {
             ))}
           </select>
         </div>
-        <div className="h-20">
+        <div className=" h-12 sm:h-20">
           <button
             type="submit"
-            className="text-white bg-blue-500 px-6 rounded-md h-12 hover:bg-blue-600"
+            className="w-full text-white bg-blue-500 px-6  rounded-md h-12 hover:bg-blue-600"
           >
             Create
           </button>

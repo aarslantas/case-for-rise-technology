@@ -34,13 +34,16 @@ const HomePage = () => {
   return (
     <>
       {!isLoading && !isFetching && (
-        <div className="pt-10 px-20 flex flex-col justify-between">
-          <header className=" border-b border-gray-300 text-left pt-4 mb-8">
+        <div className=" min-h-screen pt-10 relative  flex flex-col justify-between items-center">
+          <header className=" w-4/5 h-14  border-b border-gray-300 text-left pt-4 ">
             <h1 className="text-3xl text-blue-700">LOGO</h1>
           </header>
-          <NewJob priorities={priorities} />
-          <JobList priorities={priorities} />
-          <footer className="h-16 mt-16 bg-indigo-50 rounded-t-sm flex justify-between items-center p-4 ">
+          <div className="mt-8 sm:mt-14 w-4/5 flex-1 ">
+            <NewJob priorities={priorities} />
+            <JobList priorities={priorities} />
+          </div>
+
+          <footer className=" w-4/5 h-16 mt-2 sm:mt-8 bg-indigo-50 rounded-t-sm flex justify-between items-center p-4 ">
             <span className="w-12 h-8 bg-red-200 text-center text-red-900 rounded-lg">
               git
             </span>

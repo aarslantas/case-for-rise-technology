@@ -8,6 +8,7 @@ module.exports = {
         form: "60% 1fr auto",
         search: "60% 1fr",
         list: "55% 35% 1fr",
+        list2: "50% 1fr 1fr",
       },
       fontFamily: {
         body: ["Roboto"],
@@ -15,6 +16,7 @@ module.exports = {
     },
     minHeight: {
       12: "12rem",
+      screen: "100vh",
     },
   },
   variants: {

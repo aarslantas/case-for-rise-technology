@@ -55,9 +55,9 @@ const JobList = () => {
 
   return (
     <div>
-      <h2 className="block text-lg text-left mb-2 font-bold">Job List</h2>
+      <h2 className="block text-lg text-left mb-2 font-bold ">Job List</h2>
       <div className="border border-gray-300 rounded-md">
-        <div className="grid grid-cols-search gap-4 p-4 bg-blue-100 rounded-t-md">
+        <div className="grid gap-4 p-4 sm:grid-cols-search bg-blue-100 rounded-t-md">
           <div className="relative ">
             <label
               htmlFor="jobname"
@@ -91,7 +91,7 @@ const JobList = () => {
             <option value="1"> Trivial - Urgent</option>
           </select>
         </div>
-        <div className="grid grid-cols-list justify-items-start px-4 py-2 bg-blue-200 font-bold">
+        <div className="grid grid-cols-list2 gap-3 xl:grid-cols-list justify-items-start px-4 py-2 bg-blue-200 font-bold">
           <span>Name</span>
           <span>Priority</span>
           <span>Action</span>
