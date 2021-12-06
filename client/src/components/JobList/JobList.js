@@ -18,7 +18,6 @@ const JobList = () => {
     filteredJobs = [...jobsCtx.jobs];
   }
 
-  console.log(filteredJobs);
   if (jobs.length !== filteredJobs.length && !isFiltered) {
     filteredJobs = [...jobsCtx.jobs];
   }
@@ -32,7 +31,7 @@ const JobList = () => {
       jobsCtx.setFilteredJobs(filteredJobs);
     } else {
       filteredJobs = sortFromTrivalToUrgent(filteredJobs);
-      console.log(filteredJobs);
+
       setPriorityState("fromTrivalToUrgent");
       jobsCtx.setFilteredJobs(filteredJobs);
     }
@@ -43,7 +42,6 @@ const JobList = () => {
     setIsfiltered(true);
     filteredJobs = jobs.filter((job) => job.jobName.startsWith(searchValue));
 
-    console.log(filteredJobs);
     jobsCtx.setFilteredJobs(filteredJobs);
 
     if (!searchValue) setIsfiltered(false);
@@ -56,7 +54,7 @@ const JobList = () => {
   }
 
   return (
-    <>
+    <div>
       <h2 className="block text-lg text-left mb-2 font-bold">Job List</h2>
       <div className="border border-gray-300 rounded-md">
         <div className="grid grid-cols-search gap-4 p-4 bg-blue-100 rounded-t-md">
@@ -104,7 +102,7 @@ const JobList = () => {
           })}
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

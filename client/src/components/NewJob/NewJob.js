@@ -5,26 +5,25 @@ import JobsContext from "../../store/JobsContext";
 
 const NewJob = ({ priorities }) => {
   const jobsCtx = useContext(JobsContext);
-
   const priorityRef = useRef();
+  let jobId = jobsCtx.jobId;
 
   const submitHandler = (values) => {
     const [priorityName, priorityNumber] = priorityRef.current.value.split("-");
     jobsCtx.setIsSelected(false);
 
+    console.log("JobId", jobsCtx.jobId);
+    let newJobId = jobId + 1;
+    console.log("newJobId", newJobId);
     const newJob = {
+      jobId: newJobId,
       jobName: values.jobName,
       priorityName,
       priorityNumber,
     };
-    // if (jobsCtx.filteredJobs.length > 0) {
-    //   jobsCtx.setFilteredJobs(newJob);
-    //   jobsCtx.setJob(newJob);
-    // } else {
-    //   jobsCtx.setJob(newJob);
-    // }
 
     jobsCtx.setJob(newJob);
+    jobsCtx.setJobId(newJobId);
   };
 
   const validationSchema = yup.object({
@@ -47,7 +46,7 @@ const NewJob = ({ priorities }) => {
   });
 
   return (
-    <div className="py-4 mb-1">
+    <div className="py-4 mb-2 ">
       <h2 className="block text-lg text-left mb-2 font-bold">Create New Job</h2>
       <form
         className="grid grid-cols-form gap-4 items-center  h-36"
@@ -95,7 +94,7 @@ const NewJob = ({ priorities }) => {
         <div className="h-20">
           <button
             type="submit"
-            className="text-white bg-blue-500 px-6 rounded-md h-12"
+            className="text-white bg-blue-500 px-6 rounded-md h-12 hover:bg-blue-600"
           >
             Create
           </button>

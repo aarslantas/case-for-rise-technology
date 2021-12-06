@@ -5,7 +5,10 @@ const initialJobsState = {
   jobs: [],
   filteredJobs: [],
   isSelected: false,
-  lastJobs: [],
+  jobId: 0,
+  singleJob: {},
+  showEditModal: false,
+  showDeleteModal: false,
 };
 
 const jobsReducer = (state, action) => {
@@ -28,51 +31,127 @@ const jobsReducer = (state, action) => {
   if (action.type === "SETFILTEREDJOBS") {
     return { ...state, filteredJobs: action.filteredJobs };
   }
-  if (action.type === "SETLASTJOBS") {
-    return { ...state, lastJobs: action.lastJobs };
+
+  if (action.type === "SETJOBID") {
+    return { ...state, jobId: action.jobId };
+  }
+
+  if (action.type === "GETSINGLEJOB") {
+    const job = state.jobs.find((job) => job.jobId === action.id);
+
+    console.log(job);
+    return {
+      ...state,
+      singleJob: job,
+    };
+  }
+
+  if (action.type === "EDITJOB") {
+    const newJobs = state.jobs.filter((job) => job.jobId !== action.id);
+    const newJob = state.jobs.find((job) => job.jobId == action.id);
+    const index = state.jobs.findIndex((job) => job.jobId == action.id);
+
+    newJob.priorityName = action.priorityName;
+    newJob.priorityNumber = action.priorityNumber;
+
+    newJobs.splice(index, 0, newJob);
+
+    return {
+      ...state,
+      jobs: newJobs,
+    };
+  }
+
+  if (action.type === "DELETEJOB") {
+    const newJobs = state.jobs.filter((job) => job.jobId !== action.id);
+    return {
+      ...state,
+      jobs: newJobs,
+    };
+  }
+
+  if (action.type === "SHOWEDITMODAL") {
+    return {
+      ...state,
+      showEditModal: action.value,
+    };
+  }
+  if (action.type === "SHOWDELETEMODAL") {
+    return {
+      ...state,
+      showDeleteModal: action.value,
+    };
   }
 
   return state;
 };
 
 const JobsProvider = ({ children }) => {
-  const [jobsState, dispacthJobsState] = useReducer(
+  const [jobsState, dispatchJobsAction] = useReducer(
     jobsReducer,
     initialJobsState
   );
 
   const setJob = (job) => {
-    dispacthJobsState({ type: "SETJOB", job });
+    dispatchJobsAction({ type: "SETJOB", job });
   };
 
   const setJobToFilteredJobs = (job) => {
-    dispacthJobsState({ type: "SETJOBTOFILTEREDJOBS", job });
+    dispatchJobsAction({ type: "SETJOBTOFILTEREDJOBS", job });
   };
 
   const setAllJobs = (jobs) => {
-    dispacthJobsState({ type: "SETALLJOBS", jobs });
+    dispatchJobsAction({ type: "SETALLJOBS", jobs });
   };
   const setIsSelected = (value) => {
-    dispacthJobsState({ type: "SETISSELECTED", value });
+    dispatchJobsAction({ type: "SETISSELECTED", value });
   };
   const setFilteredJobs = (jobs) => {
-    dispacthJobsState({ type: "SETFILTEREDJOBS", filteredJobs: jobs });
+    dispatchJobsAction({ type: "SETFILTEREDJOBS", filteredJobs: jobs });
   };
-  const setLastJobs = (jobs) => {
-    dispacthJobsState({ type: "SETLASTJOBS", lastJobs: jobs });
+  const setJobId = (id) => {
+    dispatchJobsAction({ type: "SETJOBID", jobId: id });
+  };
+
+  const getSingleJob = (id) => {
+    dispatchJobsAction({ type: "GETSINGLEJOB", id: id });
+  };
+
+  const editJob = (id, priorityName, priorityNumber) => {
+    dispatchJobsAction({ type: "EDITJOB", id, priorityName, priorityNumber });
+  };
+
+  const deleteJob = (id) => {
+    dispatchJobsAction({ type: "DELETEJOB", id: id });
+  };
+
+  const showEditModalFunc = (value) => {
+    dispatchJobsAction({ type: "SHOWEDITMODAL", value: value });
+  };
+
+  const showDeleteModalFunc = (value) => {
+    dispatchJobsAction({ type: "SHOWDELETEMODAL", value: value });
   };
 
   const jobsContext = {
     jobs: jobsState.jobs,
     isSelected: jobsState.isSelected,
     filteredJobs: jobsState.filteredJobs,
-    lastJobs: jobsState.lastJobs,
+    jobId: jobsState.jobId,
+    singleJob: jobsState.singleJob,
+    showEditModal: jobsState.showEditModal,
+    showDeleteModal: jobsState.showDeleteModal,
     setJob,
     setJobToFilteredJobs,
     setAllJobs,
     setIsSelected,
     setFilteredJobs,
-    setLastJobs,
+    setJobId,
+    getSingleJob,
+    editJob,
+    deleteJob,
+    showEditModalFunc,
+    showDeleteModalFunc,
   };
 
   return (
