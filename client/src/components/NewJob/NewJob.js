@@ -12,9 +12,8 @@ const NewJob = ({ priorities }) => {
     const [priorityName, priorityNumber] = priorityRef.current.value.split("-");
     jobsCtx.setIsSelected(false);
 
-    console.log("JobId", jobsCtx.jobId);
     let newJobId = jobId + 1;
-    console.log("newJobId", newJobId);
+
     const newJob = {
       jobId: newJobId,
       jobName: values.jobName,
@@ -24,6 +23,7 @@ const NewJob = ({ priorities }) => {
 
     jobsCtx.setJob(newJob);
     jobsCtx.setJobId(newJobId);
+    formik.resetForm();
   };
 
   const validationSchema = yup.object({

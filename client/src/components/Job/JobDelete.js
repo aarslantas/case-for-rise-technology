@@ -17,7 +17,6 @@ const JobDelete = () => {
       <div className="w-3/4 flex flex-col items-center">
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          class="h-6 w-6"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -44,7 +43,7 @@ const JobDelete = () => {
             className="bg-red-500  w-5/12 py-2 rounded-md text-white"
             onClick={clickHandler}
           >
-            Save
+            Approve
           </button>
         </div>
       </div>

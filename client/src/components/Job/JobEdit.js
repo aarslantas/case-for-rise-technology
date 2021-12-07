@@ -8,7 +8,7 @@ const JobEdit = () => {
 
   const priorityRef = useRef();
 
-  const { isLoading, isFetching, data, isError, error } = usePriorty();
+  const { isLoading, data, isError, error } = usePriorty();
   if (isLoading) return <h2>Loading...</h2>;
   if (isError) return <h2>{error.message}</h2>;
   const { priorities } = data?.data;

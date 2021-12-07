@@ -39,7 +39,6 @@ const jobsReducer = (state, action) => {
   if (action.type === "GETSINGLEJOB") {
     const job = state.jobs.find((job) => job.jobId === action.id);
 
-    console.log(job);
     return {
       ...state,
       singleJob: job,
@@ -48,8 +47,8 @@ const jobsReducer = (state, action) => {
 
   if (action.type === "EDITJOB") {
     const newJobs = state.jobs.filter((job) => job.jobId !== action.id);
-    const newJob = state.jobs.find((job) => job.jobId == action.id);
-    const index = state.jobs.findIndex((job) => job.jobId == action.id);
+    const newJob = state.jobs.find((job) => job.jobId === action.id);
+    const index = state.jobs.findIndex((job) => job.jobId === action.id);
 
     newJob.priorityName = action.priorityName;
     newJob.priorityNumber = action.priorityNumber;

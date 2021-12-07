@@ -14,9 +14,9 @@ const HomePage = () => {
   const { isLoading, isFetching, data, isError, error } = usePriorty();
   if (isLoading) {
     return (
-      <div class="flex justify-center items-center h-screen">
+      <div className="flex justify-center items-center h-screen">
         <div
-          class="
+          className="
         loader
         ease-linear
         rounded-full

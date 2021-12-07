@@ -24,7 +24,7 @@ const JobList = () => {
 
   const sortingHandler = (e) => {
     jobsCtx.setIsSelected(true);
-    if (e.target.value == 0) {
+    if (Number(e.target.value) === 0) {
       filteredJobs = sortFromUrgentToTrival(filteredJobs);
 
       setPriorityState("fromUrgentToTrival");
